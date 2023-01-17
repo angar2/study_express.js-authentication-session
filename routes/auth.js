@@ -5,6 +5,12 @@ const path = require('path');
 const sanitizeHTML = require('sanitize-html');
 const template = require('../lib/template.js');
 
+var authData = {
+    email: "email@gmail.com",
+    password: "1234",
+    nickname: "angari"
+}
+
 router.get('/login', (request, response) => {
     var title = 'Login';
     var list = template.list(request.filelist);
@@ -17,6 +23,19 @@ router.get('/login', (request, response) => {
         `<h2>${title}</h2>`
     );
     response.send(HTML);
+});
+
+router.post('/login', (request, response) => {
+    var post = request.body;
+    var email = post.email;
+    var password = post.password;
+    if(email === authData.email && password === authData.password) {
+        request.session.is_login = true;
+        request.session.nickname = authData.nickname;
+        response.redirect(`/`);
+    } else {
+        response.send('Who?');
+    }
 });
 
 module.exports = router;

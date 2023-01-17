@@ -5,6 +5,8 @@ const fs = require('fs');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const helmet = require('helmet');
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 const indexRouter = require('./routes/index.js');
 const topicRouter = require('./routes/topic.js');
@@ -14,6 +16,12 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
 app.use(helmet());
+app.use(session({
+    secret: 'Secret!',
+    resave: false,
+    saveUninitialized: true,
+    store: new FileStore(),
+}));
 
 app.get('*',(request, response, next) => {
     fs.readdir(`./data`, function(error, filelist) {
