@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const sanitizeHTML = require('sanitize-html');
 const template = require('../lib/template.js');
+const auth = require('../lib/auth.js');
 
 var authData = {
     email: "email@gmail.com",
@@ -20,7 +21,8 @@ router.get('/login', (request, response) => {
             <p><input type="password" name="password" placeholder="Password" /></p>
             <p><input type="submit" value="Login" /></p>
         </form>`,
-        `<h2>${title}</h2>`
+        `<h2>${title}</h2>`,
+        auth.Status(request, response)
     );
     response.send(HTML);
 });

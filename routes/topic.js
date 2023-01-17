@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const sanitizeHTML = require('sanitize-html');
 const template = require('../lib/template.js');
+const auth = require('../lib/auth.js');
 
 router.get('/create', (request, response) => {
     var title = 'Create';
@@ -14,7 +15,8 @@ router.get('/create', (request, response) => {
             <p><textarea type=text name="description" placeholder="description"></textarea></p>
             <p><input type="submit" /></p>
             </form>`,
-        `<h2>${title}</h2>`
+        `<h2>${title}</h2>`,
+        auth.Status(request, response)
     );
     response.send(HTML);
 });
@@ -40,7 +42,8 @@ router.get('/update/:updateId', (request, response) => {
                 <p><textarea type=text name="description" placeholder="description">${desc}</textarea></p>
                 <p><input type="submit" /></p>
             </form>`, 
-            `<a href="/topic/create">Create</a> <a href="/topic/update/${title}">Update</a>`
+            `<a href="/topic/create">Create</a> <a href="/topic/update/${title}">Update</a>`,
+            auth.Status(request, response)
         );
         response.send(HTML);
     });
@@ -83,7 +86,8 @@ router.get('/:topicId', (request, response, next) => {
                 <form action="/topic/delete" method="post">
                     <input type="hidden" name="id" value="${sanitizedTitle}" />
                     <input type="submit" value="Delete" />
-                </form>`
+                </form>`,
+                auth.Status(request, response)
             );
             response.send(HTML);
         }
