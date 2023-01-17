@@ -11,7 +11,7 @@ router.get('/', (request, response) => {
         `<h2>${title}</h2>
         <p>${description}</p>
         <img src="/images/hello.jpg" style="width:200px">`, 
-        `<a href="/create">Create</a>`,
+        `<a href="/topic/create">Create</a>`,
         auth.Status(request, response)
     );
     response.send(HTML);
