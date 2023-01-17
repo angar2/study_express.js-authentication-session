@@ -8,6 +8,7 @@ const helmet = require('helmet');
 
 const indexRouter = require('./routes/index.js');
 const topicRouter = require('./routes/topic.js');
+const authRouter = require('./routes/auth.js');
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,6 +24,7 @@ app.get('*',(request, response, next) => {
 
 app.use('/',indexRouter);
 app.use('/topic', topicRouter);
+app.use('/auth', authRouter);
 
 app.use((request, response, next) => {
     response.status(404).send('요청하신 페이지를 찾을 수 없습니다 임마');
