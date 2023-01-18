@@ -34,7 +34,9 @@ router.post('/login', (request, response) => {
     if(email === authData.email && password === authData.password) {
         request.session.is_login = true;
         request.session.nickname = authData.nickname;
-        response.redirect(`/`);
+        request.session.save(function() {
+            response.redirect(`/`);
+        });
     } else {
         response.send('Who?');
     }
