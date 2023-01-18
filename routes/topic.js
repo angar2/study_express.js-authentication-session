@@ -7,6 +7,10 @@ const template = require('../lib/template.js');
 const auth = require('../lib/auth.js');
 
 router.get('/create', (request, response) => {
+    if(!auth.isOwner(request, response)) {
+        response.redirect('/auth/login');
+        return false;
+    }
     var title = 'Create';
     var list = template.list(request.filelist);
     var HTML = template.HTML(title, list,
@@ -22,6 +26,10 @@ router.get('/create', (request, response) => {
 });
 
 router.post('/create', (request, response) => {
+    if(!auth.isOwner(request, response)) {
+        response.redirect('/auth/login');
+        return false;
+    }
     var post = request.body;
     var title = post.title;
     var description = post.description;
@@ -31,6 +39,10 @@ router.post('/create', (request, response) => {
 });
 
 router.get('/update/:updateId', (request, response) => {
+    if(!auth.isOwner(request, response)) {
+        response.redirect('/auth/login');
+        return false;
+    }
     var filteredId = path.parse(request.params.updateId).base;
     fs.readFile(`data/${filteredId}`, 'utf8', function(err, desc){
         var title = request.params.updateId;
@@ -50,6 +62,10 @@ router.get('/update/:updateId', (request, response) => {
 });
 
 router.post('/update', (request, response) => {
+    if(!auth.isOwner(request, response)) {
+        response.redirect('/auth/login');
+        return false;
+    }
     var post = request.body;
     var id = post.id;
     var title = post.title;
@@ -62,6 +78,10 @@ router.post('/update', (request, response) => {
 });
 
 router.post('/delete', (request, response) => {
+    if(!auth.isOwner(request, response)) {
+        response.redirect('/auth/login');
+        return false;
+    }
     var post = request.body;
     var id = post.id;
     fs.unlink(`data/${id}`, function(error) {
